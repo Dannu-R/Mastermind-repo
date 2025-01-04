@@ -72,8 +72,9 @@ for(let i=0; i<6; i++) {
   color.classList.add('color');
   color.style.backgroundColor = colors[i];
   color.addEventListener('click', function (e) {
-    if (guesses.length != 4) {
+    if (guesses.length != 4 && guess_num < 10) {
       const hexColor = rgbToHex(e.target.style.backgroundColor);
+      if (!guesses.includes(hexColor))
       guesses.push(hexColor);
       currentRow = game_row.children[guess_num];
 
@@ -95,7 +96,7 @@ clear.addEventListener('click', function () {
 
 guess.addEventListener('click', function () {
   if (guesses.length == 4 && guess_num < 11) {
-    console.log('test');
+    console.log(wb_pegs);
     currentRow.classList.add('guessed');
     checkAccuracy(code, guesses);
     const current_peg_row = pegs.children[guess_num];
@@ -104,12 +105,30 @@ guess.addEventListener('click', function () {
       pegss[i].style.backgroundColor = wb_pegs[i]
     }
     if (wb_pegs.length == 4 && !wb_pegs.includes('white')) {
+      console.log(wb_pegs);
+      console.log('twat')
       const overlay = document.querySelector('#overlay');
       overlay.classList.add('overlay');
       const popup = document.querySelector('#popup');
       popup.classList.add('active');
       const eog_text = document.querySelector('#eog_text');
       eog_text.innerText = 'Congrats!'
+      popup.addEventListener('click', function () {
+        location.reload();
+      })
+    }
+    if (guess_num == 9) {
+      console.log(wb_pegs);
+      console.log('twat')
+      const overlay = document.querySelector('#overlay');
+      overlay.classList.add('overlay');
+      const popup = document.querySelector('#popup');
+      popup.classList.add('active');
+      const eog_text = document.querySelector('#eog_text');
+      eog_text.innerText = 'Oh no! You Lost!';
+      popup.addEventListener('click', function () {
+        location.reload();
+      })
     }
     console.log(`${black}, ${white}`);
     guesses = [];

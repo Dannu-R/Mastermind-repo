@@ -33,13 +33,13 @@ for (let i=0; i<10; i++) {
   for (let n=0; n<4; n++) {
     const block = document.createElement('div');
     block.classList.add('block');
-    block.style.backgroundColor = '#0D1A2D';
+    block.style.backgroundColor = '#D3D3D3';
     row.append(block);
   }
   for (let n=0; n<4; n++) {
     const peg = document.createElement('div');
     peg.classList.add('peg');
-    peg.style.backgroundColor = '#0D1A2D';
+    peg.style.backgroundColor = '	#D3D3D3';
     peg_row.append(peg);
   }
 
@@ -90,7 +90,7 @@ for(let i=0; i<6; i++) {
 clear.addEventListener('click', function () {
   guesses = [];
   blocks.forEach((color_guess) => {
-    color_guess.style.backgroundColor = '#0D1A2D';
+    color_guess.style.backgroundColor = '#D3D3D3';
   });
 })
 

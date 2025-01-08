@@ -33,13 +33,13 @@ for (let i=0; i<10; i++) {
   for (let n=0; n<4; n++) {
     const block = document.createElement('div');
     block.classList.add('block');
-    block.style.backgroundColor = '#D3D3D3';
+    block.style.backgroundColor = 'rgb(153, 151, 151)';
     row.append(block);
   }
   for (let n=0; n<4; n++) {
     const peg = document.createElement('div');
     peg.classList.add('peg');
-    peg.style.backgroundColor = '	#D3D3D3';
+    peg.style.backgroundColor = 'rgb(153, 151, 151)';
     peg_row.append(peg);
   }
 
@@ -48,6 +48,16 @@ for (let i=0; i<10; i++) {
 }
 
 
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        // Generate a random index between 0 and i
+        const j = Math.floor(Math.random() * (i + 1));
+        
+        // Swap elements at index i and j
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
 
 function checkAccuracy(code, guessed) {
   black = 0
@@ -61,6 +71,7 @@ function checkAccuracy(code, guessed) {
       }
     }
   });
+  shuffleArray(guessed);
 }
 
 
@@ -90,36 +101,40 @@ for(let i=0; i<6; i++) {
 clear.addEventListener('click', function () {
   guesses = [];
   blocks.forEach((color_guess) => {
-    color_guess.style.backgroundColor = '#D3D3D3';
+    color_guess.style.backgroundColor = 'rgb(153, 151, 151)';
   });
 })
 
 guess.addEventListener('click', function () {
   if (guesses.length == 4 && guess_num < 11) {
-    console.log(wb_pegs);
     currentRow.classList.add('guessed');
+
     checkAccuracy(code, guesses);
     const current_peg_row = pegs.children[guess_num];
+    current_peg_row.classList.add('guessed');
     const pegss = Array.from(current_peg_row.children);
     for (let i=0; i<wb_pegs.length; i++) {
       pegss[i].style.backgroundColor = wb_pegs[i]
     }
-    if (wb_pegs.length == 4 && !wb_pegs.includes('white')) {
-      console.log(wb_pegs);
-      console.log('twat')
+    if (wb_pegs.length == 4 && !(wb_pegs.includes('#FFFFFF'))) {
       const overlay = document.querySelector('#overlay');
       overlay.classList.add('overlay');
       const popup = document.querySelector('#popup');
       popup.classList.add('active');
       const eog_text = document.querySelector('#eog_text');
       eog_text.innerText = 'Congrats!'
+      const code_div = document.querySelector('#code');
+      for (i=0; i<4; i++) {
+        const code_block = document.createElement('div');
+        code_block.classList.add('peg');
+        code_block.style.backgroundColor = code[i];
+        code_div.append(code_block);
+      }
       popup.addEventListener('click', function () {
         location.reload();
       })
     }
     if (guess_num == 9) {
-      console.log(wb_pegs);
-      console.log('twat')
       const overlay = document.querySelector('#overlay');
       overlay.classList.add('overlay');
       const popup = document.querySelector('#popup');
@@ -130,11 +145,8 @@ guess.addEventListener('click', function () {
         location.reload();
       })
     }
-    console.log(`${black}, ${white}`);
     guesses = [];
     wb_pegs = []
-    guess_num += 1;
-    console.log(guess_num);
-    
+    guess_num += 1;    
   }
 })
